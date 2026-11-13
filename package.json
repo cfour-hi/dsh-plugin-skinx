@@ -1,0 +1,63 @@
+{
+  "name": "@cfour-hi/dsh-plugin-skinx",
+  "version": "0.2.2",
+  "type": "module",
+  "description": "Turn any image into a DeepSeek Harness theme: palette-derived tokens plus an optional wallpaper.",
+  "license": "MIT",
+  "icon": "icon.svg",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cfour-hi/dsh-plugin-skinx.git"
+  },
+  "homepage": "https://github.com/cfour-hi/dsh-plugin-skinx#readme",
+  "bugs": {
+    "url": "https://github.com/cfour-hi/dsh-plugin-skinx/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@12.18.0",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg"
+  ],
+  "scripts": {
+    "build": "node scripts/build-client.mjs",
+    "build:check": "node scripts/build-client.mjs --check",
+    "test": "node --test test/*.test.mjs",
+    "verify": "node scripts/build-client.mjs --check && node --check index.js && node --test test/*.test.mjs",
+    "prepublishOnly": "pnpm run verify"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-sidebar",
+        "@deepseek-ai/dsh-client-ui-theme"
+      ]
+    }
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}
