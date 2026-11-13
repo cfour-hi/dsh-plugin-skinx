@@ -73,13 +73,11 @@ const COPY = {
     userMessage: '把这张照片设成壁纸，范围整页，品牌位也换成它。',
     reply: [
       '已在本机取色：最鲜艳的颜色成为品牌色，其余配色用于表面和标签，文字对比度按当前明暗重新校正。',
-      '壁纸强度 90%、模糊 6px、范围整页；侧栏品牌位和按钮缩略图也同步换成了这张图。',
+      '壁纸强度 {strength}%、模糊 {blur}px、范围{scope}；侧栏品牌位和按钮缩略图也同步换成了这张图。',
     ],
     chips: ['本地取色', '整页壁纸', '品牌位'],
     placeholder: '继续调整这个皮肤，或换一张图…',
     model: 'DeepSeek-V3',
-    skinName: '霓虹夜街',
-    cardNames: ['落日山谷', '雾林湖岸', '霓虹夜街'],
     cardTime: '今天 14:32',
   },
   en: {
@@ -105,15 +103,23 @@ const COPY = {
     userMessage: 'Use this picture as the wallpaper — whole page — and the brand mark too.',
     reply: [
       'Palette extracted on this device: the most vivid color becomes the brand, the rest seed surfaces and labels, and label contrast is corrected for the current scheme.',
-      'Wallpaper strength 90%, blur 6 px, scope whole page; the sidebar brand mark and the dock thumbnail now use the same picture.',
+      'Wallpaper strength {strength}%, blur {blur} px, scope {scope}; the sidebar brand mark and the dock thumbnail now use the same picture.',
     ],
     chips: ['Local palette', 'Whole-page wallpaper', 'Brand mark'],
     placeholder: 'Keep tuning this skin, or drop another picture…',
     model: 'DeepSeek-V3',
-    skinName: 'Neon street',
-    cardNames: ['Sunset valley', 'Misty lake', 'Neon street'],
     cardTime: 'today 14:32',
   },
+}
+
+/** Display names for the sample skins in docs/examples/source. */
+const SKIN_NAMES = {
+  'skin-mwdo0yl8-9u3idy.webp': { zh: '绯樱', en: 'Crimson bloom' },
+  'skin-mweb8w4g-kd0wjy.webp': { zh: '紫夜', en: 'Violet night' },
+  'skin-mwep9zx6-94ksiu.webp': { zh: '蓝雪', en: 'Blue bloom' },
+  'skin-mwef1qar-vu5fod.webp': { zh: '素颜', en: 'Soft portrait' },
+  'skin-mwep1hii-hwl2fa.webp': { zh: '雪山晴空', en: 'Snowy peak' },
+  'skin-mwep7vwr-oulbsh.webp': { zh: '霜华', en: 'Frost' },
 }
 
 /* -------------------------------------------------------------------------- */
@@ -132,7 +138,22 @@ const fit = params.get('fit') ?? 'cover'
 const brandMark = params.get('brandMark') !== '0'
 const cardPaths = (params.get('cards') ?? '').split('|').filter((entry) => entry !== '')
 const activeCard = Number(params.get('active') ?? '0')
-const skinName = params.get('name') ?? COPY[locale].skinName
+const skinNameFor = (path) => {
+  const name = SKIN_NAMES[path.split('/').pop()]
+  return name?.[locale] ?? (locale === 'zh' ? '皮肤' : 'Skin')
+}
+const skinName = params.get('name') ?? skinNameFor(photoPath)
+
+const SCOPE_LABEL = {
+  zh: { full: '整页', sidebar: '侧栏', blank: '空白页' },
+  en: { full: 'whole page', sidebar: 'sidebar', blank: 'blank session' },
+}
+/** Keep the demo conversation in sync with the parameters of this shot. */
+const filled = (text) =>
+  text
+    .replace('{strength}', String(Math.round((1 - opacity) / 0.002)))
+    .replace('{blur}', String(blur))
+    .replace('{scope}', SCOPE_LABEL[locale][scope] ?? '')
 
 const copy = COPY[locale]
 const dictionary = locale === 'zh' ? zh : en
@@ -354,7 +375,7 @@ function shellHtml() {
         <div class="reply">
           <div class="reply-head"><span class="reply-dot"></span>Harness</div>
           <p class="paragraph">${copy.reply[0]}</p>
-          <p class="paragraph is-secondary">${copy.reply[1]}</p>
+          <p class="paragraph is-secondary">${filled(copy.reply[1])}</p>
           <div class="chips">${copy.chips.map((chip) => `<span class="chip">${chip}</span>`).join('')}</div>
         </div>
       </div>
@@ -541,10 +562,10 @@ function skinCardHtml({ url, name, active }) {
 }
 
 function savedDialog() {
-  const cards = copy.cardNames.map((name, index) =>
+  const cards = cardPaths.map((path, index) =>
     skinCardHtml({
-      url: cardPaths[index] === undefined ? photoUrl : assetUrl(`../../${cardPaths[index]}`),
-      name,
+      url: assetUrl(`../../${path}`),
+      name: skinNameFor(path),
       active: index === activeCard,
     }),
   )

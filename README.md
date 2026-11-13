@@ -19,27 +19,30 @@ SkinX 读取一张图片，在本地提取配色，推导明暗两套主题 toke
 
 ## 示例
 
-同一张图片既是壁纸、品牌位，也是整套配色的来源。下面三张由插件自身的取色与 token 代码在本地渲染：
+同一张图片既是壁纸、品牌位，也是整套配色的来源。下面所有截图都由插件自身的取色与 token 代码在本地渲染，点开可看原图。
 
 <p align="center">
-  <img src="docs/examples/wallpaper.zh.jpg" alt="整页壁纸、侧栏品牌位与取色后的暗色主题" width="880" />
+  <a href="docs/examples/wallpaper.zh.jpg"><img src="docs/examples/wallpaper.zh.jpg" alt="整页壁纸、侧栏品牌位与取色后的暗色主题" width="880" /></a>
 </p>
 
-<p align="center"><sub>整页壁纸 · 侧栏品牌位 · 按钮缩略图（暗色，取自霓虹夜街）</sub></p>
+<p align="center"><sub><strong>绯樱</strong> · 整页壁纸 · 侧栏品牌位 · Dock 缩略图（暗色）</sub></p>
 
 <p align="center">
-  <img src="docs/examples/preview.zh.jpg" alt="拖入图片后的实时预览对话框" width="880" />
+  <a href="docs/examples/skin-1.zh.jpg"><img src="docs/examples/skin-1.zh.jpg" alt="紫夜：从紫色插画得到的暗色主题" width="284" /></a>
+  <a href="docs/examples/skin-2.zh.jpg"><img src="docs/examples/skin-2.zh.jpg" alt="蓝雪：从冷色插画得到的暗色主题" width="284" /></a>
+  <a href="docs/examples/skin-3.zh.jpg"><img src="docs/examples/skin-3.zh.jpg" alt="雪山晴空：从风景照得到的亮色主题" width="284" /></a>
 </p>
 
-<p align="center"><sub>拖入图片后的实时预览：色板、强度、模糊、范围与填充方式（亮色，取自雪山晴空）</sub></p>
+<p align="center"><sub><strong>紫夜</strong>（暗色） · <strong>蓝雪</strong>（暗色） · <strong>雪山晴空</strong>（亮色）—— 同一套布局，三张图给出三种色温</sub></p>
 
 <p align="center">
-  <img src="docs/examples/saved.zh.jpg" alt="已保存的皮肤列表与当前皮肤设置" width="880" />
+  <a href="docs/examples/preview.zh.jpg"><img src="docs/examples/preview.zh.jpg" alt="拖入图片后的实时预览对话框" width="430" /></a>
+  <a href="docs/examples/saved.zh.jpg"><img src="docs/examples/saved.zh.jpg" alt="已保存的皮肤列表与当前皮肤设置" width="430" /></a>
 </p>
 
-<p align="center"><sub>已保存的皮肤：点击封面应用、点击名称重命名、悬停删除（取自雾林湖岸）</sub></p>
+<p align="center"><sub>拖入图片即预览：色板、强度、模糊、范围与填充方式 · 已保存的皮肤：点击封面应用、点击名称重命名、悬停删除</sub></p>
 
-示例图存放在 `docs/examples/`，用 `pnpm run docs:shots` 在无头 Chrome 中重新生成；截图里的宿主界面是示意布局，配色、壁纸与对话框样式都来自插件本身。
+示例图存放在 `docs/examples/`，源图在 `docs/examples/source/`，用 `pnpm run docs:shots` 在无头 Chrome 中重新生成（截图里的宿主界面是示意布局，配色、壁纸与对话框样式都来自插件本身）。
 
 ## 功能
 

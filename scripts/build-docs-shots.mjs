@@ -21,98 +21,97 @@ const OUT = join(ROOT, 'docs/examples')
 const CHROME =
   process.env.CHROME_BIN ?? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 
-const SCENES = [
+const SOURCE = 'docs/examples/source'
+const SKIN = {
+  crimson: `${SOURCE}/skin-mwdo0yl8-9u3idy.webp`,
+  violet: `${SOURCE}/skin-mweb8w4g-kd0wjy.webp`,
+  blue: `${SOURCE}/skin-mwep9zx6-94ksiu.webp`,
+  portrait: `${SOURCE}/skin-mwef1qar-vu5fod.webp`,
+  snow: `${SOURCE}/skin-mwep1hii-hwl2fa.webp`,
+  frost: `${SOURCE}/skin-mwep7vwr-oulbsh.webp`,
+}
+const CARDS = [SKIN.crimson, SKIN.frost, SKIN.blue]
+
+/** Every scene is rendered once per locale; names come from page.js. */
+const SCENES = ['zh', 'en'].flatMap((locale) => [
   {
-    file: 'wallpaper.zh.jpg',
-    locale: 'zh',
+    file: `wallpaper.${locale}.jpg`,
+    locale,
     scheme: 'dark',
     mode: 'applied',
-    photo: 'docs/examples/source/neon-street.jpg',
+    photo: SKIN.crimson,
     opacity: 0.8,
     blur: 0,
     scope: 'full',
     fit: 'cover',
     brandMark: '1',
-    name: '霓虹夜街',
   },
   {
-    file: 'preview.zh.jpg',
-    locale: 'zh',
+    file: `skin-1.${locale}.jpg`,
+    locale,
+    scheme: 'dark',
+    mode: 'applied',
+    photo: SKIN.violet,
+    opacity: 0.8,
+    blur: 0,
+    scope: 'full',
+    fit: 'cover',
+    brandMark: '1',
+    outWidth: 1200,
+  },
+  {
+    file: `skin-2.${locale}.jpg`,
+    locale,
+    scheme: 'dark',
+    mode: 'applied',
+    photo: SKIN.blue,
+    opacity: 0.87,
+    blur: 6,
+    scope: 'full',
+    fit: 'cover',
+    brandMark: '1',
+    outWidth: 1200,
+  },
+  {
+    file: `skin-3.${locale}.jpg`,
+    locale,
+    scheme: 'light',
+    mode: 'applied',
+    photo: SKIN.snow,
+    opacity: 0.82,
+    blur: 4,
+    scope: 'full',
+    fit: 'cover',
+    brandMark: '1',
+    outWidth: 1200,
+  },
+  {
+    file: `preview.${locale}.jpg`,
+    locale,
     scheme: 'light',
     mode: 'preview',
-    photo: 'docs/examples/source/snowy-peak.jpg',
+    photo: SKIN.portrait,
     opacity: 0.82,
     blur: 6,
     scope: 'full',
     fit: 'cover',
     brandMark: '1',
-    name: '雪山晴空',
   },
   {
-    file: 'saved.zh.jpg',
-    locale: 'zh',
-    scheme: 'light',
+    file: `saved.${locale}.jpg`,
+    locale,
+    scheme: 'dark',
     mode: 'saved',
-    photo: 'docs/examples/source/misty-lake.jpg',
+    photo: SKIN.frost,
     opacity: 0.82,
     blur: 8,
-    scope: 'sidebar',
+    scope: 'full',
     fit: 'cover',
-    brandMark: '0',
-    cards: [
-      'docs/examples/source/sunset-valley.jpg',
-      'docs/examples/source/misty-lake.jpg',
-      'docs/examples/source/neon-street.jpg',
-    ],
+    brandMark: '1',
+    cards: CARDS,
     active: 1,
-    name: '雾林湖岸',
   },
-  {
-    file: 'wallpaper.en.jpg',
-    locale: 'en',
-    scheme: 'light',
-    mode: 'applied',
-    photo: 'docs/examples/source/sunset-valley.jpg',
-    opacity: 0.8,
-    blur: 0,
-    scope: 'full',
-    fit: 'cover',
-    brandMark: '1',
-    name: 'Sunset valley',
-  },
-  {
-    file: 'preview.en.jpg',
-    locale: 'en',
-    scheme: 'dark',
-    mode: 'preview',
-    photo: 'docs/examples/source/snowy-peak.jpg',
-    opacity: 0.82,
-    blur: 6,
-    scope: 'full',
-    fit: 'cover',
-    brandMark: '1',
-    name: 'Snowy peak',
-  },
-  {
-    file: 'saved.en.jpg',
-    locale: 'en',
-    scheme: 'dark',
-    mode: 'saved',
-    photo: 'docs/examples/source/neon-street.jpg',
-    opacity: 0.82,
-    blur: 8,
-    scope: 'full',
-    fit: 'cover',
-    brandMark: '1',
-    cards: [
-      'docs/examples/source/sunset-valley.jpg',
-      'docs/examples/source/misty-lake.jpg',
-      'docs/examples/source/neon-street.jpg',
-    ],
-    active: 2,
-    name: 'Neon street',
-  },
-]
+])
 
 const filter = process.argv[2]
 const scenes = filter === undefined ? SCENES : SCENES.filter((scene) => scene.file.includes(filter))
@@ -133,7 +132,7 @@ function capture(scene) {
   const search = new URLSearchParams(
     Object.fromEntries(
       Object.entries(scene)
-        .filter(([key]) => key !== 'file' && key !== 'cards' && key !== 'height')
+        .filter(([key]) => !['file', 'cards', 'height', 'outWidth'].includes(key))
         .map(([key, value]) => [key, String(value)]),
     ),
   )
@@ -166,7 +165,7 @@ function capture(scene) {
     const encoded = join(work, `${attempt}-${scene.file}`)
     execFileSync(
       'sips',
-      ['--resampleWidth', '1600', '-s', 'format', 'jpeg', '-s', 'formatOptions', '92', png, '--out', encoded],
+      ['--resampleWidth', String(scene.outWidth ?? 1600), '-s', 'format', 'jpeg', '-s', 'formatOptions', '92', png, '--out', encoded],
       { stdio: 'ignore' },
     )
     // A frame captured before the page painted is a nearly blank file; retry
