@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/cfour-hi/dsh-plugin-skinx/main/banner.zh-CN.svg" alt="SkinX — 把任意图片变成 DeepSeek Harness 主题">
+  <img src="banner.zh-CN.svg" alt="SkinX — 把任意图片变成 DeepSeek Harness 主题">
 </p>
 
 <p align="center">
@@ -16,6 +16,30 @@
 </p>
 
 SkinX 读取一张图片，在本地提取配色，推导明暗两套主题 token（表面、文字、边框、品牌色、状态色、侧边栏），并把同一张图片用作壁纸、品牌标识和 Dock 缩略图。
+
+## 示例
+
+同一张图片既是壁纸、品牌位，也是整套配色的来源。下面三张由插件自身的取色与 token 代码在本地渲染：
+
+<p align="center">
+  <img src="docs/examples/wallpaper.zh.jpg" alt="整页壁纸、侧栏品牌位与取色后的暗色主题" width="880" />
+</p>
+
+<p align="center"><sub>整页壁纸 · 侧栏品牌位 · 按钮缩略图（暗色，取自霓虹夜街）</sub></p>
+
+<p align="center">
+  <img src="docs/examples/preview.zh.jpg" alt="拖入图片后的实时预览对话框" width="880" />
+</p>
+
+<p align="center"><sub>拖入图片后的实时预览：色板、强度、模糊、范围与填充方式（亮色，取自雪山晴空）</sub></p>
+
+<p align="center">
+  <img src="docs/examples/saved.zh.jpg" alt="已保存的皮肤列表与当前皮肤设置" width="880" />
+</p>
+
+<p align="center"><sub>已保存的皮肤：点击封面应用、点击名称重命名、悬停删除（取自雾林湖岸）</sub></p>
+
+示例图存放在 `docs/examples/`，用 `pnpm run docs:shots` 在无头 Chrome 中重新生成；截图里的宿主界面是示意布局，配色、壁纸与对话框样式都来自插件本身。
 
 ## 功能
 

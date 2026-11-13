@@ -15,6 +15,18 @@ pnpm run verify       # build check + host syntax + tests
 
 `client.js` is generated; edit `src/` and rebuild.
 
+## Documentation shots
+
+The images under `docs/examples/` come from `pnpm run docs:shots`:
+`scripts/docs-shots/page.js` decodes the sample pictures in headless Chrome
+(`/Applications/Google Chrome.app/Contents/MacOS/Google Chrome` by default,
+override with `CHROME_BIN`), runs `src/palette.js` and `src/tokens.js` to derive
+and inject the tokens, then paints the dialog and the wallpaper with
+`src/ui/styles.js` and `WallpaperStyle`. The host shell around the dialog is an
+illustrative layout only. Sample pictures live in `docs/examples/source/`; swap
+them and rerun the script.
+
+
 ## From a checkout
 
 ```bash

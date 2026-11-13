@@ -13,6 +13,11 @@ pnpm run verify       # 构建检查 + host 语法检查 + 测试
 
 `client.js` 是生成文件；请修改 `src/` 后重新构建。
 
+## 文档示例图
+
+`docs/examples/` 下的截图由 `pnpm run docs:shots` 生成：`scripts/docs-shots/page.js` 在无头 Chrome（默认 `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`，可用 `CHROME_BIN` 覆盖）中解码示例图片，调用 `src/palette.js` 与 `src/tokens.js` 取色并注入 token，再用 `src/ui/styles.js` 和 `WallpaperStyle` 渲染对话框与壁纸。截图中的宿主界面只是示意布局；示例照片在 `docs/examples/source/`，换图后重跑脚本即可。
+
+
 ## 从本地检出版本安装
 
 ```bash

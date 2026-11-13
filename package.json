@@ -40,7 +40,8 @@
     "build:check": "node scripts/build-client.mjs --check",
     "test": "node --test test/*.test.mjs",
     "verify": "node scripts/build-client.mjs --check && node --check index.js && node --test test/*.test.mjs",
-    "prepublishOnly": "pnpm run verify"
+    "prepublishOnly": "pnpm run verify",
+    "docs:shots": "node scripts/build-docs-shots.mjs"
   },
   "dsh": {
     "bundle": {
