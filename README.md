@@ -68,7 +68,7 @@ npm install @cfour-hi/dsh-plugin-skinx
 plugin_manager(action: "install_bundle", target: "@cfour-hi/dsh-plugin-skinx")
 ```
 
-新版本通过 `v*` 标签由 GitHub Actions 自动发布到 npm。从本地检出安装、开发命令与发布流程见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+新版本通过 `v*` 标签由 GitHub Actions 自动发布到 npm，同一次流程还会创建对应的 GitHub Release（自动生成更新说明，并附上与 npm 同版本的 `.tgz` 打包文件）。从本地检出安装、开发命令与发布流程见 [CONTRIBUTING.md](CONTRIBUTING.md)。
 
 ## 数据与隐私
 

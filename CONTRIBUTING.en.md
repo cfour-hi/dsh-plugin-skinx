@@ -49,14 +49,27 @@ Every push to `main` and every pull request runs `.github/workflows/ci.yml`
 (`pnpm install --frozen-lockfile` then `pnpm verify`).
 
 Publishing is done by GitHub Actions (`.github/workflows/publish.yml`); nothing
-is published from a laptop. The workflow authenticates through npm Trusted
-Publishing over OIDC, so there is no `NPM_TOKEN` secret. A `v*` tag whose
-version matches `package.json` triggers it; it verifies the package with
-`pnpm verify` and then publishes `@cfour-hi/dsh-plugin-skinx` with
-`npm publish` (npm ≥ 11.5.1 is required for OIDC; pnpm still handles install
-and verification because it has no OIDC support). Provenance is attested
-automatically. Prerelease versions (`-beta`, `-rc`, …) go to the `next`
-dist-tag instead of `latest`.
+is published from a laptop. It runs as two jobs:
+
+- **npm** (`publish`) authenticates through npm Trusted Publishing over OIDC, so
+  there is no `NPM_TOKEN` secret. A `v*` tag whose version matches
+  `package.json` triggers it; it verifies the package with `pnpm verify` and then
+  publishes `@cfour-hi/dsh-plugin-skinx` with `npm publish` (npm ≥ 11.5.1 is
+  required for OIDC; pnpm still handles install and verification because it has
+  no OIDC support). Provenance is attested automatically. Prerelease versions
+  (`-beta`, `-rc`, …) go to the `next` dist-tag instead of `latest`.
+- **GitHub Release** (`release`) runs only for a `v*` tag push and only after
+  the npm publish succeeded (`needs: publish`). It packs the same commit with
+  `npm pack`, writes an install section in front of GitHub's generated release
+  notes (falling back to a `git log` commit list when the notes API is
+  unavailable), then creates the release titled after the tag with that `.tgz`
+  attached; prerelease versions are flagged as prereleases. If a release for the
+  tag already exists it refreshes the asset and the body instead of failing, so a
+  re-run is safe. The job needs only `contents: write` on `GITHUB_TOKEN`,
+  declared per job in the workflow — no extra secret or repository setting.
+
+So there is nothing to create by hand on GitHub: push the tag and both the npm
+package and the GitHub Release appear.
 
 1. Bump `version` in `package.json` and commit it on `main`.
 2. Tag and push:

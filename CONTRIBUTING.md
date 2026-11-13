@@ -36,7 +36,12 @@ plugin_manager(action: "install_bundle", target: "<检出目录的绝对路径>"
 
 每次推送到 `main` 以及每个 Pull Request 都会运行 `.github/workflows/ci.yml`（`pnpm install --frozen-lockfile`，然后 `pnpm verify`）。
 
-发布由 GitHub Actions（`.github/workflows/publish.yml`）完成，不在本地机器上发布。工作流通过 OIDC 使用 npm Trusted Publishing 认证，因此无需 `NPM_TOKEN` secret。推送与 `package.json` 版本一致的 `v*` 标签即可触发；它会先执行 `pnpm verify` 校验包，再用 `npm publish` 发布 `@cfour-hi/dsh-plugin-skinx`（OIDC 需要 npm ≥ 11.5.1；安装与校验仍由 pnpm 负责，因为 pnpm 尚不支持 OIDC）。Provenance 会自动生成。预发布版本（`-beta`、`-rc` 等）会发布到 `next` dist-tag，而不是 `latest`。
+发布由 GitHub Actions（`.github/workflows/publish.yml`）完成，不在本地机器上发布，分两个 job：
+
+- **npm**（`publish`）：通过 OIDC 使用 npm Trusted Publishing 认证，因此无需 `NPM_TOKEN` secret。推送与 `package.json` 版本一致的 `v*` 标签即可触发；它会先执行 `pnpm verify` 校验包，再用 `npm publish` 发布 `@cfour-hi/dsh-plugin-skinx`（OIDC 需要 npm ≥ 11.5.1；安装与校验仍由 pnpm 负责，因为 pnpm 尚不支持 OIDC）。Provenance 会自动生成。预发布版本（`-beta`、`-rc` 等）会发布到 `next` dist-tag，而不是 `latest`。
+- **GitHub Release**（`release`）：只在 `v*` 标签推送且 npm 发布成功（`needs: publish`）后运行。它用同一提交执行 `npm pack` 打出 `.tgz`，生成一段安装说明接在 GitHub 自动生成的 Release Notes 之后（生成接口不可用时回退为 `git log` 的提交列表），然后创建标题为标签名的 Release 并上传该附件；预发布版本会标记为 prerelease。同名 Release 已存在时改为覆盖附件并更新正文，因此重跑是安全的。该 job 只需要 `contents: write` 的 `GITHUB_TOKEN` 权限（已在工作流内按 job 声明），不需要额外 secret 或仓库设置。
+
+因此发布新版本时无需在 GitHub 上手建 Release：标签一推，npm 包与 GitHub Release 一起出现。
 
 1. 更新 `package.json` 中的 `version` 并在 `main` 上提交。
 2. 打标签并推送：

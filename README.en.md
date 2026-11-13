@@ -90,9 +90,10 @@ Then install the bundle in the running Harness:
 plugin_manager(action: "install_bundle", target: "@cfour-hi/dsh-plugin-skinx")
 ```
 
-New versions are published to npm from a `v*` tag by GitHub Actions. Installing
-from a local checkout, development commands and the release process live in
-[CONTRIBUTING.en.md](CONTRIBUTING.en.md).
+New versions are published to npm from a `v*` tag by GitHub Actions, and the same
+run creates the matching GitHub Release (generated notes plus the `.tgz` of that
+version as an asset). Installing from a local checkout, development commands and
+the release process live in [CONTRIBUTING.en.md](CONTRIBUTING.en.md).
 
 ## Data and privacy
 
