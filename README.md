@@ -22,18 +22,17 @@ SkinX 读取一张图片，在本地提取配色，推导明暗两套主题 toke
 同一张图片既是壁纸、品牌位，也是整套配色的来源。下面所有截图都由插件自身的取色与 token 代码在本地渲染，点开可看原图。
 
 <p align="center">
-  <a href="docs/examples/preview.zh.jpg"><img src="docs/examples/preview.zh.jpg" alt="拖入图片后的实时预览对话框" /></a>
+  <a href="docs/examples/preview.zh.jpg"><img src="docs/examples/preview.zh.jpg" alt="拖入图片后的实时预览对话框" width="838" /></a>
 </p>
 
 <p align="center">
-  <a href="docs/examples/wallpaper.jpg"><img src="docs/examples/wallpaper.jpg" alt="整页壁纸、侧栏品牌位与取色后的暗色主题" /></a>
+  <a href="docs/examples/wallpaper.jpg"><img src="docs/examples/wallpaper.jpg" alt="整页壁纸、侧栏品牌位与取色后的暗色主题" width="838" /></a>
 </p>
 
 <p align="center">
   <a href="docs/examples/skin-1.jpg"><img src="docs/examples/skin-1.jpg" alt="紫夜：从紫色插画得到的暗色主题" width="416" /></a>
   <a href="docs/examples/skin-2.jpg"><img src="docs/examples/skin-2.jpg" alt="紫夜：从紫色插画得到的暗色主题" width="416" /></a>
 </p>
-<p align="center"><sub><strong>紫夜</strong>（暗色） · <strong>蓝雪</strong>（暗色） · <strong>雪山晴空</strong>（亮色）—— 同一套布局，三张图给出三种色温</sub></p>
 
 示例图存放在 `docs/examples/`，源图在 `docs/examples/source/`，用 `pnpm run docs:shots` 在无头 Chrome 中重新生成（截图里的宿主界面是示意布局，配色、壁纸与对话框样式都来自插件本身）。
 
