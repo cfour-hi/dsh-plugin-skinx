@@ -1,6 +1,6 @@
 {
   "name": "@cfour-hi/dsh-plugin-skinx",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "type": "module",
   "description": "Turn any image into a DeepSeek Harness theme: palette-derived tokens plus an optional wallpaper.",
   "license": "MIT",
