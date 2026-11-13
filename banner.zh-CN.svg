@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 420" width="1600" height="420" role="img" aria-label="SkinX — 把任意图片变成 DeepSeek Harness 主题">
+  <defs>
+    <linearGradient id="sx-bg" x1="0" y1="0" x2="1600" y2="420" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#111c31"/>
+      <stop offset=".55" stop-color="#0a111f"/>
+      <stop offset="1" stop-color="#060a12"/>
+    </linearGradient>
+    <radialGradient id="sx-glow-red" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#fb7185" stop-opacity=".24"/>
+      <stop offset="1" stop-color="#fb7185" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="sx-glow-amber" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#fbbf24" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#fbbf24" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="sx-glow-teal" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#34d399" stop-opacity=".15"/>
+      <stop offset="1" stop-color="#34d399" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="sx-glow-blue" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#38bdf8" stop-opacity=".14"/>
+      <stop offset="1" stop-color="#38bdf8" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sx-tile" x1="8" y1="4" x2="56" y2="62" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#16223a"/>
+      <stop offset="1" stop-color="#070c16"/>
+    </linearGradient>
+    <radialGradient id="sx-glow" cx="24" cy="17" r="38" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".13"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sx-a" x1="18.5" y1="18.5" x2="28.5" y2="28.5" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fb7185"/>
+      <stop offset="1" stop-color="#f472b6"/>
+    </linearGradient>
+    <linearGradient id="sx-b" x1="45.5" y1="18.5" x2="35.5" y2="28.5" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fbbf24"/>
+      <stop offset="1" stop-color="#f97316"/>
+    </linearGradient>
+    <linearGradient id="sx-c" x1="18.5" y1="45.5" x2="28.5" y2="35.5" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#818cf8"/>
+    </linearGradient>
+    <linearGradient id="sx-d" x1="45.5" y1="45.5" x2="35.5" y2="35.5" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#34d399"/>
+      <stop offset="1" stop-color="#10b981"/>
+    </linearGradient>
+    <linearGradient id="sx-word-x" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fb7185"/>
+      <stop offset=".35" stop-color="#fbbf24"/>
+      <stop offset=".7" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#34d399"/>
+    </linearGradient>
+    <linearGradient id="sx-dot" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fb7185"/>
+      <stop offset=".5" stop-color="#fbbf24"/>
+      <stop offset="1" stop-color="#34d399"/>
+    </linearGradient>
+    <linearGradient id="sx-topline" x1="80" y1="0" x2="1520" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset=".3" stop-color="#ffffff" stop-opacity=".22"/>
+      <stop offset=".7" stop-color="#ffffff" stop-opacity=".14"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="sx-grid" width="34" height="34" patternUnits="userSpaceOnUse">
+      <path d="M34 0H0V34" fill="none" stroke="#ffffff" stroke-opacity=".03"/>
+    </pattern>
+    <filter id="sx-tile-shadow" x="-50%" y="-50%" width="200%" height="220%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#000000" flood-opacity=".55"/>
+    </filter>
+    <clipPath id="sx-frame">
+      <rect width="1600" height="420" rx="28"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#sx-frame)">
+    <rect width="1600" height="420" fill="url(#sx-bg)"/>
+    <rect width="1600" height="420" fill="url(#sx-grid)"/>
+    <circle cx="170" cy="10" r="430" fill="url(#sx-glow-red)"/>
+    <circle cx="1510" cy="40" r="360" fill="url(#sx-glow-amber)"/>
+    <circle cx="1560" cy="430" r="380" fill="url(#sx-glow-teal)"/>
+    <circle cx="1180" cy="400" r="330" fill="url(#sx-glow-blue)"/>
+
+    <g opacity=".18" stroke-width="36" stroke-linecap="round" fill="none">
+      <path d="M1165 35 1306 176" stroke="url(#sx-a)"/>
+      <path d="M1515 35 1374 176" stroke="url(#sx-b)"/>
+      <path d="M1165 385 1306 244" stroke="url(#sx-c)"/>
+      <path d="M1515 385 1374 244" stroke="url(#sx-d)"/>
+    </g>
+
+    <g transform="translate(84 114) scale(3)" filter="url(#sx-tile-shadow)">
+      <rect x="4" y="4" width="56" height="56" rx="15" fill="url(#sx-tile)"/>
+      <rect x="4" y="4" width="56" height="56" rx="15" fill="url(#sx-glow)"/>
+      <g fill="none" stroke-width="9.5" stroke-linecap="round">
+        <path d="M18.5 18.5 28.5 28.5" stroke="url(#sx-a)"/>
+        <path d="M45.5 18.5 35.5 28.5" stroke="url(#sx-b)"/>
+        <path d="M18.5 45.5 28.5 35.5" stroke="url(#sx-c)"/>
+        <path d="M45.5 45.5 35.5 35.5" stroke="url(#sx-d)"/>
+      </g>
+      <rect x="4.75" y="4.75" width="54.5" height="54.5" rx="14.25" fill="none" stroke="#ffffff" stroke-opacity=".1" stroke-width="1.5"/>
+    </g>
+
+    <g font-family="Inter, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', 'SF Pro Display', 'Segoe UI', Helvetica, Arial, sans-serif">
+      <g transform="translate(312 90)">
+        <rect width="112" height="36" rx="18" fill="#ffffff" fill-opacity=".06" stroke="#ffffff" stroke-opacity=".16"/>
+        <circle cx="21" cy="18" r="4.5" fill="url(#sx-dot)"/>
+        <text x="35" y="24" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" fill="#dbe4f0" letter-spacing=".6">skin</text>
+      </g>
+      <text x="442" y="115" font-size="14" font-weight="600" fill="#8496ae" letter-spacing="2.4">专为 DEEPSEEK HARNESS 打造</text>
+
+      <text x="309" y="236" font-size="112" font-weight="700" fill="#f8fafc" letter-spacing="-2.5">Skin<tspan fill="url(#sx-word-x)">X</tspan></text>
+      <text x="312" y="294" font-size="28" fill="#a9b7cc">把任意图片变成 DeepSeek Harness 主题。</text>
+
+      <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="18" fill="#7f90a7">
+        <rect x="312" y="324" width="6" height="21" rx="3" fill="#34d399" opacity=".8"/>
+        <text x="330" y="342" letter-spacing=".2">npm i @cfour-hi/dsh-plugin-skinx</text>
+      </g>
+    </g>
+
+    <path d="M28 1H1572" stroke="url(#sx-topline)" stroke-width="1.5" fill="none"/>
+  </g>
+
+  <rect x=".75" y=".75" width="1598.5" height="418.5" rx="27.5" fill="none" stroke="#ffffff" stroke-opacity=".09" stroke-width="1.5"/>
+</svg>
