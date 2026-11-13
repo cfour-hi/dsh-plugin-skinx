@@ -12,7 +12,7 @@ on:
 
 permissions:
   contents: read
-  id-token: write # npm provenance
+  id-token: write # OIDC token for npm Trusted Publishing and provenance
 
 concurrency:
   group: publish
@@ -27,9 +27,12 @@ jobs:
       - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version: 24
           cache: pnpm
-          registry-url: https://registry.npmjs.org
+      - name: Ensure npm supports Trusted Publishing
+        run: |
+          npm install -g npm@^11.5.1
+          npm --version
       - run: pnpm install --frozen-lockfile
       - name: Resolve version and dist-tag
         id: version
@@ -48,11 +51,7 @@ jobs:
         run: pnpm run verify
       - name: Dry run
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
-        run: pnpm publish --dry-run --access public --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Publish
+        run: npm publish --dry-run --access public
+      - name: Publish with OIDC
         if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && !inputs.dry_run) }}
-        run: pnpm publish --provenance --access public --tag ${{ steps.version.outputs.dist_tag }} --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --provenance --access public --tag ${{ steps.version.outputs.dist_tag }}

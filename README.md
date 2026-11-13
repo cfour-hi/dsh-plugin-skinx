@@ -77,10 +77,14 @@ Every push to `main` and every pull request runs `.github/workflows/ci.yml`
 (`pnpm install --frozen-lockfile` then `pnpm verify`).
 
 Publishing is done by GitHub Actions (`.github/workflows/publish.yml`); nothing
-is published from a laptop. A `v*` tag whose version matches `package.json`
-triggers the workflow, which verifies the package and publishes
-`@cfour-hi/dsh-plugin-skinx` with provenance. Prerelease versions (`-beta`,
-`-rc`, …) go to the `next` dist-tag instead of `latest`.
+is published from a laptop. The workflow authenticates through npm Trusted
+Publishing over OIDC, so there is no `NPM_TOKEN` secret. A `v*` tag whose
+version matches `package.json` triggers it; it verifies the package with
+`pnpm verify` and then publishes `@cfour-hi/dsh-plugin-skinx` with
+`npm publish` (npm ≥ 11.5.1 is required for OIDC; pnpm still handles install
+and verification because it has no OIDC support). Provenance is attested
+automatically. Prerelease versions (`-beta`, `-rc`, …) go to the `next`
+dist-tag instead of `latest`.
 
 1. Bump `version` in `package.json` and commit it on `main`.
 2. Tag and push:
@@ -93,14 +97,21 @@ triggers the workflow, which verifies the package and publishes
 `workflow_dispatch` accepts a `dry_run` input (default `true`) to pack and
 verify without uploading.
 
-One-time repository setup:
+One-time setup:
 
-- Add an npm automation token with publish rights on the `@cfour-hi` scope as
-  the `NPM_TOKEN` secret (Settings → Secrets and variables → Actions).
-- For keyless publishing, configure npm Trusted Publishing for this repository
-  and `publish.yml`, then remove the `NODE_AUTH_TOKEN` env entry — the workflow
-  already requests `id-token: write`.
-- Provenance attestations require a public repository and `id-token: write`.
+- The package must already exist on the registry before npm accepts a trusted
+  publisher, so publish the first version once by hand:
+
+  ```bash
+  npm login
+  npm publish --access public
+  ```
+
+- Then open the package on npmjs.com → **Settings** → **Trusted Publisher** →
+  **GitHub Actions** and enter owner `cfour-hi`, repository
+  `dsh-plugin-skinx`, workflow `publish.yml`, and leave the environment field
+  empty. Every later tag publishes through OIDC with no stored secret.
+- Provenance attestations require a public repository; this one is public.
 
 ## Data and privacy
 
