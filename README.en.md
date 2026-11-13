@@ -26,16 +26,16 @@ Every shot below is rendered locally by the plugin's own palette and token code;
 click one to open the full-size image.
 
 <p align="center">
-  <a href="docs/examples/preview.en.jpg"><img src="docs/examples/preview.en.jpg" alt="The live preview dialog after dropping a picture" /></a>
+  <a href="docs/examples/preview.en.jpg"><img src="docs/examples/preview.en.jpg" alt="The live preview dialog after dropping a picture" width="838" /></a>
 </p>
 
 <p align="center">
-  <a href="docs/examples/wallpaper.jpg"><img src="docs/examples/wallpaper.jpg" alt="Whole-page wallpaper, sidebar brand mark and a dark theme" width="880" /></a>
+  <a href="docs/examples/wallpaper.jpg"><img src="docs/examples/wallpaper.jpg" alt="Whole-page wallpaper, sidebar brand mark and a dark theme" width="838" /></a>
 </p>
 
 <p align="center">
-  <a href="docs/examples/skin-1.jpg"><img src="docs/examples/skin-1.jpg" alt="Violet night: a dark theme from a purple illustration" width="284" /></a>
-  <a href="docs/examples/skin-2.jpg"><img src="docs/examples/skin-2.jpg" alt="Violet night: a dark theme from a purple illustration" width="284" /></a>
+  <a href="docs/examples/skin-1.jpg"><img src="docs/examples/skin-1.jpg" alt="Violet night: a dark theme from a purple illustration" width="416" /></a>
+  <a href="docs/examples/skin-2.jpg"><img src="docs/examples/skin-2.jpg" alt="Violet night: a dark theme from a purple illustration" width="416" /></a>
 </p>
 
 The images live in `docs/examples/`, the source pictures in
