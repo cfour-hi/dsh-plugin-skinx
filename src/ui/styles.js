@@ -999,4 +999,36 @@ export const CSS = `
     animation-iteration-count: 1 !important;
   }
 }
+
+/* -------------------------------------------------------------------------- */
+/* Host overlay surfaces stay opaque while a wallpaper is active              */
+/* -------------------------------------------------------------------------- */
+/* Wallpaper mode makes the shared surface tokens translucent so the picture
+   can show through. The settings panel, its cards, modal dialogs and the
+   file-change / code-review previews are painted with those same tokens, so
+   they would otherwise turn transparent and both the wallpaper and the
+   conversation underneath would bleed through their text.
+
+   Re-anchor every surface alias on those overlays to the one token wallpaper
+   mode deliberately keeps opaque (--dsw-alias-bg-overlay), and pin an opaque
+   fill on the settings panel and code-review previews as a fallback. These
+   rules live in the persistent stylesheet, not the wallpaper style element,
+   so they cannot disappear when a host dialog takes over the overlay slot.
+   The body[data-skinx-wallpaper] guard is toggled by a client store
+   subscription, so an idle install leaves the shipped UI untouched. */
+body[data-skinx-wallpaper] [data-shortcut-modal="settings"],
+body[data-skinx-wallpaper] [role="dialog"][aria-modal="true"],
+body[data-skinx-wallpaper] [data-changes-hover-preview],
+body[data-skinx-wallpaper] [data-review-view] {
+  --dsw-alias-bg-base: var(--dsw-alias-bg-overlay) !important;
+  --dsw-alias-bg-layer-1: var(--dsw-alias-bg-overlay) !important;
+  --dsw-alias-bg-layer-2: var(--dsw-alias-bg-overlay) !important;
+  --dsw-specific-sidebar-fill: var(--dsw-alias-bg-overlay) !important;
+  --dsw-alias-settings-card-fill: var(--dsw-alias-bg-overlay) !important;
+}
+body[data-skinx-wallpaper] [data-shortcut-modal="settings"],
+body[data-skinx-wallpaper] [data-changes-hover-preview],
+body[data-skinx-wallpaper] [data-review-view] {
+  background-color: var(--dsw-alias-bg-overlay);
+}
 `

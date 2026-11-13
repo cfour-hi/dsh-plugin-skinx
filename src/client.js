@@ -119,6 +119,28 @@ export function createClient(React) {
         }
       }, 'skinx: styles')
 
+      // Wallpaper mode makes the shared surface tokens translucent so the
+      // picture shows through. Host overlays (the settings panel, modal
+      // dialogs, code-review previews) are restored to an opaque surface by
+      // the guarded rules in CSS. Toggle that guard from the store so an idle
+      // install leaves the shipped UI untouched.
+      ctx.effect(() => {
+        const sync = () => {
+          const wallpaper = getState().wallpaper
+          if (typeof wallpaper?.url === 'string') {
+            document.body.setAttribute('data-skinx-wallpaper', '')
+          } else {
+            document.body.removeAttribute('data-skinx-wallpaper')
+          }
+        }
+        const unsubscribe = subscribe(sync)
+        sync()
+        return () => {
+          unsubscribe()
+          document.body.removeAttribute('data-skinx-wallpaper')
+        }
+      }, 'skinx: wallpaper guard')
+
       ctx.effect(() => ctx.locale.register(NAMESPACE, { en, zh }), 'skinx: locale')
       setTranslator(ctx.locale.bind(NAMESPACE))
 

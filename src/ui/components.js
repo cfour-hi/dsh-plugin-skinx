@@ -85,15 +85,11 @@ export function WallpaperStyle({ wallpaper }) {
     // Keep negative-z wallpaper above the body background and below content.
     // Without a local stacking context it falls behind the opaque body.
     'body{isolation:isolate}' +
-    // DSH's file-change hover card uses the same translucent surface tokens
-    // as the page. Give code review its own opaque backing, including context
-    // lines that otherwise have no fill. Stable host data attributes avoid
-    // coupling to CSS-module hashes.
-    '[data-changes-hover-preview],[data-review-view]{' +
-    '--dsw-alias-bg-base:var(--dsw-alias-bg-overlay);' +
-    '--dsw-alias-bg-layer-1:var(--dsw-alias-bg-overlay);' +
-    '--dsw-alias-bg-layer-2:var(--dsw-alias-bg-overlay);' +
-    'background:var(--dsw-alias-bg-overlay);}' +
+    // Host overlays (settings panel, modal dialogs, code-review previews) are
+    // kept opaque by the persistent stylesheet in ui/styles.js, guarded by
+    // body[data-skinx-wallpaper]. Keeping that rule here would tie it to this
+    // wallpaper style element, which can be unmounted when a host dialog owns
+    // the overlay slot.
     // Backdrop: cover-sized and permanently blurred so the picture fills the
     // letterbox bands without cropping the sharp layer, and its tone sits close
     // to the sharp copy to hide the seam.
