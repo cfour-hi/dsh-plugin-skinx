@@ -55,3 +55,94 @@ jobs:
       - name: Publish with OIDC
         if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && !inputs.dry_run) }}
         run: npm publish --provenance --access public --tag ${{ steps.version.outputs.dist_tag }}
+
+  release:
+    # Only for a tag push, and only after the npm package actually landed.
+    needs: publish
+    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # tags and history for the fallback commit list
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Pack the tarball
+        id: pack
+        run: |
+          mkdir -p dist
+          npm pack --pack-destination dist > /dev/null
+          tarball=$(find dist -maxdepth 1 -name '*.tgz' -print -quit)
+          test -n "$tarball"
+          echo "tarball=$tarball" >> "$GITHUB_OUTPUT"
+      - name: Compose release notes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=$(node -p "require('./package.json').version")
+          tag="$GITHUB_REF_NAME"
+          dist_tag=latest
+          case "$version" in
+            *-*) dist_tag=next ;;
+          esac
+
+          {
+            echo "## 安装"
+            echo
+            echo '```bash'
+            echo "npm install @cfour-hi/dsh-plugin-skinx@$version"
+            echo '```'
+            echo
+            echo '```'
+            echo 'plugin_manager(action: "install_bundle", target: "@cfour-hi/dsh-plugin-skinx")'
+            echo '```'
+            echo
+            echo "npm 上的 \`@cfour-hi/dsh-plugin-skinx@$version\`（dist-tag \`$dist_tag\`）；下方附件是同一版本源码打出的 \`.tgz\`，可用于离线安装。"
+            echo
+            echo "---"
+            echo
+          } > release-notes.md
+
+          # Prefer GitHub's own generated notes; fall back to the commit list so a
+          # first release (no previous tag) still gets a readable body.
+          body=$(gh api --method POST "repos/$GITHUB_REPOSITORY/releases/generate-notes" \
+            -f tag_name="$tag" -f target_commitish="$GITHUB_SHA" --jq '.body' 2>/dev/null) || body=""
+          if [ -n "$body" ]; then
+            printf '%s\n' "$body" >> release-notes.md
+          else
+            echo "### 变更" >> release-notes.md
+            echo >> release-notes.md
+            previous=$(git describe --tags --abbrev=0 "$tag^" 2>/dev/null) || previous=""
+            if [ -n "$previous" ]; then
+              git log --no-merges --pretty='- %s (%h)' "$previous..$tag" >> release-notes.md
+            else
+              git log --no-merges --pretty='- %s (%h)' -n 20 "$tag" >> release-notes.md
+            fi
+          fi
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARBALL: ${{ steps.pack.outputs.tarball }}
+        run: |
+          version=$(node -p "require('./package.json').version")
+          tag="$GITHUB_REF_NAME"
+          prerelease=""
+          case "$version" in
+            *-*) prerelease="--prerelease" ;;
+          esac
+
+          if gh release view "$tag" > /dev/null 2>&1; then
+            # Re-running the job after a flaky step: refresh the asset and body.
+            gh release upload "$tag" "$TARBALL" --clobber
+            gh release edit "$tag" --title "$tag" --notes-file release-notes.md
+          else
+            gh release create "$tag" "$TARBALL" \
+              --title "$tag" \
+              --notes-file release-notes.md \
+              $prerelease
+          fi
+          gh release view "$tag" --json url,tagName,isPrerelease --jq '"release: \(.url) (prerelease=\(.isPrerelease))"' >> "$GITHUB_STEP_SUMMARY"
